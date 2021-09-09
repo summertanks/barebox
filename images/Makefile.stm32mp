@@ -1,0 +1,34 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# barebox image generation Makefile for STMicroelectronics MP
+#
+
+# %.stm32 - convert into STM32MP image
+# --------------------------------------
+
+$(obj)/%.stm32: $(obj)/% FORCE
+	$(call if_changed,stm32_image)
+
+STM32MP1_OPTS = -a 0xc0100000 -e 0xc0100000 -v1
+
+# --------------------------------------
+
+pblb-$(CONFIG_MACH_STM32MP15XX_DKX) += start_stm32mp15xx_dkx
+FILE_barebox-stm32mp15xx-dkx.img = start_stm32mp15xx_dkx.pblb.stm32
+OPTS_start_stm32mp15xx_dkx.pblb.stm32 = $(STM32MP1_OPTS)
+image-$(CONFIG_MACH_STM32MP15XX_DKX) += barebox-stm32mp15xx-dkx.img
+
+pblb-$(CONFIG_MACH_LXA_MC1) += start_stm32mp157c_lxa_mc1
+FILE_barebox-stm32mp157c-lxa-mc1.img = start_stm32mp157c_lxa_mc1.pblb.stm32
+OPTS_start_stm32mp157c_lxa_mc1.pblb.stm32 = $(STM32MP1_OPTS)
+image-$(CONFIG_MACH_LXA_MC1) += barebox-stm32mp157c-lxa-mc1.img
+
+pblb-$(CONFIG_MACH_SEEED_ODYSSEY) += start_stm32mp157c_seeed_odyssey
+FILE_barebox-stm32mp157c-seeed-odyssey.img = start_stm32mp157c_seeed_odyssey.pblb.stm32
+OPTS_start_stm32mp157c_seeed_odyssey.pblb.stm32 = $(STM32MP1_OPTS)
+image-$(CONFIG_MACH_SEEED_ODYSSEY) += barebox-stm32mp157c-seeed-odyssey.img
+
+pblb-$(CONFIG_MACH_STM32MP15X_EV1) += start_stm32mp15x_ev1
+FILE_barebox-stm32mp15x-ev1.img = start_stm32mp15x_ev1.pblb.stm32
+OPTS_start_stm32mp15x_ev1.pblb.stm32 = $(STM32MP1_OPTS)
+image-$(CONFIG_MACH_STM32MP15X_EV1) += barebox-stm32mp15x-ev1.img

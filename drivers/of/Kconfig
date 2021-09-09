@@ -1,0 +1,74 @@
+config OFTREE
+	select DTC
+	bool
+
+config OFTREE_MEM_GENERIC
+	depends on OFTREE
+	depends on PPC || ARM || EFI_BOOTUP || OPENRISC || SANDBOX || RISCV || KVX
+	def_bool y
+
+config DTC
+	bool
+
+config OFDEVICE
+	select OFTREE
+	select DTC
+	bool "Enable probing of devices from the devicetree"
+
+config OF_ADDRESS_PCI
+	bool
+
+config OF_GPIO
+	depends on GPIOLIB
+	depends on OFDEVICE
+	def_bool y
+
+config OF_PCI
+	bool
+	depends on PCI
+	select OF_ADDRESS_PCI
+	help
+	  OpenFirmware PCI bus accessors
+
+config OF_BAREBOX_DRIVERS
+	depends on OFDEVICE
+	depends on ENV_HANDLING
+	bool "Enable barebox specific devicetree configuration drivers"
+	help
+	  barebox supports being configured from devicetree. This enables
+	  support for this feature. This currently allows to configure the
+	  environment path from devicetree and to partition devices. See
+	  Documentation/devicetree/bindings/barebox/ for more information.
+
+config OF_BAREBOX_ENV_IN_FS
+	depends on OF_BAREBOX_DRIVERS
+	bool "Allow environment to come from file"
+	help
+	  Allow the devie tree configuration of the barebox environment path
+	  to specify a file in filesystem, which will be mounted.
+
+config OF_OVERLAY
+	select OFTREE
+	select FIRMWARE
+	bool "Devicetree overlays"
+	help
+	  Overlays allow to patch the devicetree. Unlike Linux, Barebox does
+	  not patch the live devicetree, but applies the overlays as fixup to
+	  the devicetree. Furthermore, overlays cannot be removed after they
+	  have been applied.
+
+config OF_OVERLAY_LIVE
+	depends on OF_OVERLAY
+	bool "Support devicetree overlays on live devicetree"
+	help
+	  This option allows to use devicetree overlays with the live
+	  devicetree. It is not required to apply overlays to any other
+	  devicetree.
+
+	  This builds the build-in devicetree with __symbols__, which
+	  significantly increases the size of the dtb file.
+
+	  Enable this option only if you actually need the live devicetree
+	  while applying in the devicetree overlay. This is usually the case if
+	  applying the overlay has other side effects than changing the
+	  devicetree.

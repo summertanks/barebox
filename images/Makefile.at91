@@ -1,0 +1,43 @@
+#
+# barebox image generation Makefile for AT91 images
+#
+
+pblb-$(CONFIG_MACH_AT91SAM9X5EK) += start_at91sam9x5ek
+FILE_barebox-at91sam9x5ek.img = start_at91sam9x5ek.pblb
+image-$(CONFIG_MACH_AT91SAM9X5EK) += barebox-at91sam9x5ek.img
+
+pblb-$(CONFIG_MACH_AT91SAM9263EK) += start_at91sam9263ek
+FILE_barebox-at91sam9263ek.img = start_at91sam9263ek.pblb
+image-$(CONFIG_MACH_AT91SAM9263EK) += barebox-at91sam9263ek.img
+
+pblb-$(CONFIG_MACH_MICROCHIP_KSZ9477_EVB) += start_sama5d3_xplained_ung8071
+FILE_barebox-microchip-ksz9477-evb.img = start_sama5d3_xplained_ung8071.pblb
+image-$(CONFIG_MACH_MICROCHIP_KSZ9477_EVB) += barebox-microchip-ksz9477-evb.img
+
+pblb-$(CONFIG_MACH_MICROCHIP_KSZ9477_EVB) += start_sama5d3_xplained_ung8071_xload_mmc
+MAX_PBL_IMAGE_SIZE_start_sama5d3_xplained_ung8071_xload_mmc = 0xffff
+FILE_barebox-microchip-ksz9477-evb-xload-mmc.img = start_sama5d3_xplained_ung8071_xload_mmc.pblb
+image-$(CONFIG_MACH_MICROCHIP_KSZ9477_EVB) += barebox-microchip-ksz9477-evb-xload-mmc.img
+
+pblb-$(CONFIG_MACH_SAMA5D27_SOM1) += start_sama5d27_som1_ek
+FILE_barebox-sama5d27-som1-ek.img = start_sama5d27_som1_ek.pblb
+image-$(CONFIG_MACH_SAMA5D27_SOM1) += barebox-sama5d27-som1-ek.img
+
+pblb-$(CONFIG_MACH_SAMA5D27_SOM1) += start_sama5d27_som1_ek_xload_mmc
+MAX_PBL_IMAGE_SIZE_start_sama5d27_som1_ek_xload_mmc = 0xffff
+FILE_barebox-sama5d27-som1-ek-xload-mmc.img = start_sama5d27_som1_ek_xload_mmc.pblb
+image-$(CONFIG_MACH_SAMA5D27_SOM1) += barebox-sama5d27-som1-ek-xload-mmc.img
+
+pblb-$(CONFIG_MACH_SAMA5D27_GIANTBOARD) += start_sama5d27_giantboard
+FILE_barebox-groboards-sama5d27-giantboard.img = start_sama5d27_giantboard.pblb
+image-$(CONFIG_MACH_SAMA5D27_GIANTBOARD) += barebox-groboards-sama5d27-giantboard.img
+
+pblb-$(CONFIG_MACH_SAMA5D27_GIANTBOARD) += start_sama5d27_giantboard_xload_mmc
+FILE_barebox-groboards-sama5d27-giantboard-xload-mmc.img = start_sama5d27_giantboard_xload_mmc.pblb
+MAX_PBL_IMAGE_SIZE_start_sama5d27_giantboard_xload_mmc = 0xffff
+image-$(CONFIG_MACH_SAMA5D27_GIANTBOARD) += barebox-groboards-sama5d27-giantboard-xload-mmc.img
+
+pblb-$(CONFIG_MACH_SKOV_ARM9CPU) += start_skov_arm9cpu
+FILE_barebox-skov-arm9cpu.img = start_skov_arm9cpu.pblb
+MAX_PBL_MEMORY_SIZE_start_skov_arm9cpu = 0x12000
+image-$(CONFIG_MACH_SKOV_ARM9CPU) += barebox-skov-arm9cpu.img

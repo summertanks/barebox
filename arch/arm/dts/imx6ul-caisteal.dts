@@ -1,0 +1,20 @@
+#include <arm/imx6ul-caisteal.dts>
+
+/{
+	chosen {
+		stdout-path = &uart1;
+
+		environment {
+			compatible = "barebox,environment";
+			device-path = &environment_qspi;
+		};
+	};
+};
+
+&qspi {
+	environment_qspi: partition@100000 {
+		label = "QSPI.barebox-env";
+		reg = <0x00100000 0x00040000>;
+	};
+};
+

@@ -1,0 +1,166 @@
+/*
+ * Copyright 2013 Christian Hemp, Phytec Messtechnik GmbH
+ *
+ * The code contained herein is licensed under the GNU General Public
+ * License. You may obtain a copy of the GNU General Public License
+ * Version 2 or later at the following locations:
+ *
+ * http://www.opensource.org/licenses/gpl-license.html
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+#include <arm/imx6qdl-phytec-pfla02.dtsi>
+
+/ {
+	chosen {
+		environment-nand {
+			compatible = "barebox,environment";
+			device-path = &gpmi, "partname:barebox-environment";
+			status = "disabled";
+		};
+
+		environment-spinor {
+			compatible = "barebox,environment";
+			device-path = &som_flash, "partname:barebox-environment";
+			status = "disabled";
+		};
+
+		environment-sd1 {
+			compatible = "barebox,environment";
+			device-path = &usdhc1, "partname:barebox-environment";
+			status = "disabled";
+		};
+
+		environment-sd2 {
+			compatible = "barebox,environment";
+			device-path = &usdhc2, "partname:barebox-environment";
+			status = "disabled";
+		};
+
+		environment-sd3 {
+			compatible = "barebox,environment";
+			device-path = &usdhc3, "partname:barebox-environment";
+			status = "disabled";
+		};
+
+		environment-sd4 {
+			compatible = "barebox,environment";
+			device-path = &usdhc4, "partname:barebox-environment";
+			status = "disabled";
+		};
+	};
+};
+
+/delete-node/ &{/memory@10000000};
+
+&som_flash {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		partition@0 {
+			label = "barebox";
+			reg = <0x0 0x100000>;
+		};
+
+		partition@100000 {
+			label = "barebox-environment";
+			reg = <0x100000 0x20000>;
+		};
+
+		partition@120000 {
+			label = "oftree";
+			reg = <0x120000 0x20000>;
+		};
+
+		partition@140000 {
+			label = "kernel";
+			reg = <0x140000 0x0>;
+		};
+	};
+};
+
+&fec {
+	/*
+	 * barebox doesn't have a driver for the PMIC providing the phy-supply
+	 * (dlg,da9063). So remove the phy-supply property and rely on the
+	 * PMIC's reset default which has this supply enabled.
+	 */
+	/delete-property/ phy-supply;
+};
+
+&gpmi {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		partition@0 {
+			label = "barebox";
+			reg = <0x0 0x1000000>;
+		};
+
+		partition@1000000 {
+			label = "barebox-environment";
+			reg = <0x1000000 0x100000>;
+		};
+
+		partition@1100000 {
+			label = "root";
+			reg = <0x1100000 0x0>;
+		};
+	};
+};
+
+&iomuxc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_rev>;
+
+	imx6q-phytec-pfla02 {
+		pinctrl_rev: revgrp {
+			fsl,pins = <
+				MX6QDL_PAD_SD4_DAT3__GPIO2_IO11 0x80000000
+				MX6QDL_PAD_SD4_DAT4__GPIO2_IO12	0x80000000
+				MX6QDL_PAD_SD4_DAT5__GPIO2_IO13	0x80000000
+				MX6QDL_PAD_SD4_DAT6__GPIO2_IO14	0x80000000
+				MX6QDL_PAD_SD4_DAT7__GPIO2_IO15	0x80000000
+			>;
+		};
+	};
+};
+
+&ocotp {
+	barebox,provide-mac-address = <&fec 0x620>;
+};
+
+&som_eeprom {
+	pagesize = <32>;
+};
+
+&usdhc3 {
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	partition@0 {
+		label = "barebox";
+		reg = <0x0 0xe0000>;
+	};
+
+	partition@e0000 {
+		label = "barebox-environment";
+		reg = <0xe0000 0x20000>;
+	};
+};
+
+&i2c1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2c1>;
+	status = "okay";
+
+	pmic@58 {
+		watchdog-priority = <500>;
+		restart-priority = <500>;
+		reset-source-priority = <500>;
+	};
+};

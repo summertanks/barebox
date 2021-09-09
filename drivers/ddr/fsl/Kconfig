@@ -1,0 +1,17 @@
+config DDR_FSL
+	bool "Freescale DDR support" if COMPILE_TEST
+	depends on ARM
+
+if DDR_FSL
+
+config DDR_FSL_DDR1
+	bool "Enable DDR1 support"
+config DDR_FSL_DDR2
+	bool "Enable DDR2 support"
+config DDR_FSL_DDR3
+	bool "Enable DDR3 support"
+config DDR_FSL_DDR4
+	bool "Enable DDR4 support"
+
+endif
+

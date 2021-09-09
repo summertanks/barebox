@@ -1,0 +1,55 @@
+#
+# Misc strange devices
+#
+
+menu "Misc devices"
+
+config JTAG
+	tristate "JTAG Bitbang driver"
+	depends on GENERIC_GPIO
+	help
+	  Controls JTAG chains connected to I/O pins
+
+config SRAM
+	bool "Generic SRAM driver"
+	help
+	  This driver adds support for memory mapped SRAM.
+
+config STATE_DRV
+	tristate "state driver"
+	depends on OFDEVICE
+	depends on STATE
+
+config DEV_MEM
+        bool "Generic memory I/O device (/dev/mem)"
+
+config UBOOTVAR
+	bool "U-Boot environment storage"
+	depends on OFTREE
+	help
+	  This driver exposes U-Boot environment variable storage as a
+	  single mmap-able device, hiding various low-level details
+	  such as:
+	      - Preamble format differences
+	      - Read/write logic in presence of redundant partition
+
+	  While it can be used standalone, it is best when coupled
+	  with corresponding filesystem driver.
+
+config ACPI_TEST
+	bool "ACPI Test driver"
+	depends on ACPI
+	help
+	  This is a simple Test driver to test the ACPI bus.
+
+config STARFIVE_PWRSEQ
+	bool "StarFive power sequencing driver"
+	depends on SOC_STARFIVE
+	help
+	  This driver sets up a number of StarFive peripherals not matched
+	  by more specific barebox drivers by deasserting reset lines, muxing
+	  pins and/or enabling clocks. Peripherals set up by this can then
+	  be accessed over /dev/mem or used from kernels which still depend
+	  on bootloader for initialization.
+
+endmenu
